@@ -35,7 +35,7 @@ const gameSettings = {
     easy: { speed: 75, obstacleCount: 0 },
     normal: { speed: 75, obstacleCount: 6 },
     hard: { speed: 45, obstacleCount: 9 },
-    impossible: { speed: 80, obstacleCount: 12 }
+    impossible: { speed: 45, obstacleCount: 12 }
 }
 
 // Piešķir, kāds būs ātrums un cik būs šķēršļi.
