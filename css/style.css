@@ -1,16 +1,20 @@
+/* Styling the game container */
 #gameContainer{
     text-align: center;
 }
 
+/* Styling the game board */
 #gameBoard{
     border: 3px solid black;
 }
 
+/* Changing the font for the score */
 #scoreText{
     font-family: "Permanent Marker", cursive;
     font-size: 100px;
 }
 
+/* Styling the reset button */
 #resetBtn{
     font-family: "Permanent Marker", cursive;
     font-size: 22px;

@@ -1,3 +1,4 @@
+// Creating all constants and variables needed for the game
 const gameBoard = document.querySelector("#gameBoard");
 const ctx = gameBoard.getContext("2d");
 const scoreText = document.querySelector("#scoreText");
@@ -15,6 +16,7 @@ let yVelocity = 0;
 let foodX;
 let foodY;
 let score = 0;
+// Creating and setting the default snake size
 let snake = [
     {x:unitSize * 4, y:0},
     {x:unitSize * 3, y:0},
@@ -23,11 +25,14 @@ let snake = [
     {x:0, y:0}
 ];
 
+// Event listeners to set the keys to move and the reset button
 window.addEventListener("keydown", changeDirection);
 resetBtn.addEventListener("click", resetGame);
 
+// Start the game when player enters the website
 gameStart();
 
+// Function that automatically starts the game
 function gameStart(){
     running = true;
     scoreText.textContent = score;
@@ -36,6 +41,7 @@ function gameStart(){
     nextTick();
 };
 
+// Function that sets everything that happens after each tick
 function nextTick(){
     if(running){
         setTimeout(()=>{
@@ -52,11 +58,13 @@ function nextTick(){
     }
 };
 
+// Function to clear the game board after snake collects a piece of food
 function clearBoard(){
     ctx.fillStyle = boardBackground;
     ctx.fillRect(0, 0, gameWidth, gameHeight);
 };
 
+// Function that creates how the food will spawn
 function createFood(){
     function randomFood(min, max){
         const randNum = Math.round((Math.random() * (max - min) + min) / unitSize) * unitSize;
@@ -66,11 +74,13 @@ function createFood(){
     foodY = randomFood(0, gameWidth - unitSize);
 };
 
+// Function that draws the food for player to see
 function drawFood(){
     ctx.fillStyle = foodColor;
     ctx.fillRect(foodX, foodY, unitSize, unitSize);
 };
 
+// Function that sets the head of the snake and checks if the snake eats any food, if so then update the score by 1
 function moveSnake(){
     const head = {x: snake[0].x + xVelocity,
                   y: snake[0].y + yVelocity};
@@ -86,6 +96,7 @@ function moveSnake(){
     }
 };
 
+// Function that makes the snake visible
 function drawSnake(){
     ctx.fillStyle = snakeColor;
     ctx.strokeStyle = snakeBorder;
@@ -95,6 +106,7 @@ function drawSnake(){
     })
 };
 
+// Function that sets the controls so the player can move the snake (the 4 keys used here are arrow keys)
 function changeDirection(event){
     const keyPressed = event.keyCode;
     const LEFT = 37;
@@ -107,6 +119,7 @@ function changeDirection(event){
     const goingLEFT = (xVelocity == -unitSize);
     const goingRIGHT = (xVelocity == unitSize);
 
+    // Switch statement to check if snake isn't colliding with itself
     switch(true){
         case(keyPressed == LEFT && !goingRIGHT):
             xVelocity = -unitSize;
@@ -126,6 +139,7 @@ function changeDirection(event){
     }
 };
 
+// Function that checks if the snake goes out of the container borders, if so the snake stops moving
 function checkGameOver(){
     switch(true){
         case (snake[0].x < 0):
@@ -149,6 +163,7 @@ function checkGameOver(){
     }
 };
 
+// Displays GAME OVER screen to the player
 function displayGameOver(){
     ctx.font = "50px MV Boli";
     ctx.fillStyle = "black";
@@ -157,6 +172,7 @@ function displayGameOver(){
     running = false;
 };
 
+// Resets the canvas and snake to default
 function resetGame(){
     score = 0;
     xVelocity = unitSize;
