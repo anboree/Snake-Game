@@ -5,16 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Snake Game</title>
 
+    <!-- Imported font from Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
     <!-- Link to CSS file -->
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <!-- The default HTML game container, score and reset button -->
-    <div id="gameContainer">
-        <canvas id="gameBoard" width="500" height="500"></canvas>
-        <div id="scoreText">0</div>
-        <button id="resetBtn">Reset</button>
+    <!-- Created 2 containers to vertically center elements in CSS -->
+    <div class="website-container-parent">
+        <div class="website-container-child">
+
+            <!-- The players score -->
+            <div id="scoreText">0</div>
+
+            <!-- The default HTML game container, score and reset button -->
+            <div id="gameContainer">
+                <canvas id="gameBoard" width="500" height="500"></canvas>
+                <button id="resetBtn">Reset</button>
+            </div>
+
+        </div>
     </div>
+
     <!-- Link to JavaScript file -->
     <script src="js/app.js"></script>
 </body>
