@@ -6,7 +6,7 @@ const resetBtn = document.querySelector("#resetBtn");
 const gameWidth = gameBoard.width;
 const gameHeight = gameBoard.height;
 const boardBackground = "lightgray";
-const snakeColor = "lightgreen";
+const snakeColor = "green";
 const snakeBorder = "black";
 const foodColor = "red";
 const unitSize = 25;
@@ -16,6 +16,7 @@ let yVelocity = 0;
 let foodX;
 let foodY;
 let score = 0;
+let timeout;
 // Creating and setting the default snake size
 let snake = [
     {x:unitSize * 4, y:0},
@@ -44,7 +45,7 @@ function gameStart(){
 // Function that sets everything that happens after each tick
 function nextTick(){
     if(running){
-        setTimeout(()=>{
+        timeout = setTimeout(()=>{
             clearBoard();
             drawFood();
             moveSnake();
@@ -184,5 +185,6 @@ function resetGame(){
         {x:unitSize, y:0},
         {x:0, y:0}
     ];
+    clearTimeout(timeout);
     gameStart();
 };
