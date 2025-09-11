@@ -26,12 +26,22 @@ let snake = [
     {x:0, y:0}
 ];
 
-// Event listeners to set the keys to move and the reset button
+// Event listeners to set the keys to move and the reset/start button
 window.addEventListener("keydown", changeDirection);
 resetBtn.addEventListener("click", resetGame);
+startBtn.addEventListener("click", startGame);
 
-// Start the game when player enters the website
-gameStart();
+// Title for game before start
+ctx.font = "50px sans-serif";
+ctx.fillStyle = "green";
+ctx.textAlign = "center";
+ctx.fillText("SNAKE GAME", gameWidth / 2, gameHeight / 2);
+
+// Start the game when player clicks on the "Start Game" button
+function startGame(){
+    startBtn.style.display = "none";
+    gameStart();
+}
 
 // Function that automatically starts the game
 function gameStart(){
@@ -40,6 +50,7 @@ function gameStart(){
     createFood();
     drawFood();
     nextTick();
+    resetBtn.style.display = "block";
 };
 
 // Function that sets everything that happens after each tick
@@ -166,8 +177,8 @@ function checkGameOver(){
 
 // Displays GAME OVER screen to the player
 function displayGameOver(){
-    ctx.font = "50px MV Boli";
-    ctx.fillStyle = "black";
+    ctx.font = "50px sans-serif";
+    ctx.fillStyle = "darkred";
     ctx.textAlign = "center";
     ctx.fillText("GAME OVER!", gameWidth / 2, gameHeight / 2);
     running = false;
