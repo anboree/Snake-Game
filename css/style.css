@@ -22,7 +22,8 @@ body{
 
 /* Styling the game board */
 #gameBoard{
-    border: 3px solid black;
+    border: 4px solid black;
+    background-color: lightgray;
 }
 
 /* Changing the font for the score */
@@ -33,7 +34,7 @@ body{
 }
 
 /* Styling the reset button */
-#resetBtn{
+#resetBtn, #startBtn{
     font-family: "Press Start 2P", cursive;
     font-size: 20px;
     width: fit-content;
