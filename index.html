@@ -24,11 +24,21 @@
             <!-- The players score -->
             <div id="scoreText">0</div>
 
-            <!-- The default HTML game container, score and reset button -->
+            <!-- The default HTML game container, score and reset button and difficulty select -->
             <div id="gameContainer">
                 <canvas id="gameBoard" width="500" height="500"></canvas>
-                <button id="startBtn" >Start Game</button>
-                <button id="resetBtn" style="display: none;">Reset</button>
+
+                <div class="buttons-container">
+
+                    <select id="difficulty" name="difficulty">
+                        <option value="75" selected>Normal</option>
+                        <option value="40">Hard</option>
+                    </select>
+
+                    <button id="startBtn">Start Game</button>
+                    <button id="resetBtn" style="display: none;">Reset</button>
+                    
+                </div>
             </div>
 
         </div>

@@ -10,6 +10,7 @@ const snakeColor = "green";
 const snakeBorder = "black";
 const foodColor = "red";
 const unitSize = 25;
+const difficultySelect = document.querySelector("#difficulty");
 let running = false;
 let xVelocity = unitSize;
 let yVelocity = 0;
@@ -17,6 +18,8 @@ let foodX;
 let foodY;
 let score = 0;
 let timeout;
+// Default game speed
+let gameSpeed = 75;
 // Creating and setting the default snake size
 let snake = [
     {x:unitSize * 4, y:0},
@@ -26,10 +29,13 @@ let snake = [
     {x:0, y:0}
 ];
 
-// Event listeners to set the keys to move and the reset/start button
+// Event listeners to set the keys to move and the reset/start button and difficulty dropdown
 window.addEventListener("keydown", changeDirection);
 resetBtn.addEventListener("click", resetGame);
 startBtn.addEventListener("click", startGame);
+difficultySelect.addEventListener("change", function() {
+    gameSpeed = Number(this.value);
+});
 
 // Title for game before start
 ctx.font = "50px sans-serif";
@@ -40,6 +46,9 @@ ctx.fillText("SNAKE GAME", gameWidth / 2, gameHeight / 2);
 // Start the game when player clicks on the "Start Game" button
 function startGame(){
     startBtn.style.display = "none";
+    difficultySelect.style.display = "none";
+    gameSpeed = Number(difficultySelect.value);
+
     gameStart();
 }
 
@@ -63,7 +72,7 @@ function nextTick(){
             drawSnake();
             checkGameOver();
             nextTick();
-        }, 75)
+        }, gameSpeed)
     }
     else{
         displayGameOver();
@@ -182,6 +191,7 @@ function displayGameOver(){
     ctx.textAlign = "center";
     ctx.fillText("GAME OVER!", gameWidth / 2, gameHeight / 2);
     running = false;
+    difficultySelect.style.display = "block";
 };
 
 // Resets the canvas and snake to default
@@ -197,5 +207,6 @@ function resetGame(){
         {x:0, y:0}
     ];
     clearTimeout(timeout);
+    difficultySelect.style.display = "none";
     gameStart();
 };
