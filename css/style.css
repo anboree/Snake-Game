@@ -1,5 +1,7 @@
 body{
-    background-color: lightgreen;
+    background-image: url(/assets/background-img.png);
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 /* Centering everything vertically */
@@ -33,15 +35,41 @@ body{
     margin-top: 20px;
 }
 
+/* Aligning the start/reset buttons and difficulty */
+.buttons-container{
+    width: max-content;
+    margin: 0 auto 0 auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
 /* Styling the reset button */
 #resetBtn, #startBtn{
+    display: inline-block;
     font-family: "Press Start 2P", cursive;
-    font-size: 20px;
+    font-size: 16px;
     width: fit-content;
     height: 50px;
     border: 4px solid black;
     border-radius: 15px;
     cursor: pointer;
     display: block;
-    margin: 15px auto 0 auto;
+    margin: 5px;
+}
+
+/* Styling the difficulty dropdown */
+#difficulty{
+    display: inline-block;
+    font-family: "Press Start 2P";
+    font-size: 16px;
+    width: fit-content;
+    height: 50px;
+    border: 4px solid black;
+    border-radius: 15px;
+    cursor: pointer;
+    display: block;
+    margin: 5px;
+    text-align: center;
 }
