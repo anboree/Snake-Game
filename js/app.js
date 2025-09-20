@@ -33,7 +33,14 @@ let snake = [
 ];
 
 // Event listeners to set the keys to move and the reset/start button and difficulty dropdown
-window.addEventListener("keydown", changeDirection);
+window.addEventListener("keydown", function(event){
+    changeDirection(event);
+
+    // If 'R' key is pressed, then reset game so user doesn't have to use mouse
+    if((event.key === "r" || event.key === "R") && startBtn.style.display == "none"){
+        resetGame();
+    }
+});
 resetBtn.addEventListener("click", resetGame);
 startBtn.addEventListener("click", startGame);
 difficultySelect.addEventListener("change", function() {
