@@ -16,6 +16,9 @@ let xVelocity = unitSize;
 let yVelocity = 0;
 let foodX;
 let foodY;
+let specialFoodX;
+let specialFoodY;
+let isSpecialFood = false;
 let score = 0;
 let timeout;
 // Default game speed
@@ -91,14 +94,30 @@ function createFood(){
         const randNum = Math.round((Math.random() * (max - min) + min) / unitSize) * unitSize;
         return randNum;
     }
-    foodX = randomFood(0, gameWidth - unitSize);
-    foodY = randomFood(0, gameWidth - unitSize);
+
+    // 10% chance for special food to appear
+    isSpecialFood = Math.random() < 0.1;
+
+    if(isSpecialFood){
+        specialFoodX = randomFood(0, gameWidth - unitSize);
+        specialFoodY = randomFood(0, gameHeight - unitSize);
+    }
+    else{
+        foodX = randomFood(0, gameWidth - unitSize);
+        foodY = randomFood(0, gameHeight - unitSize);
+    }
 };
 
 // Function that draws the food for player to see
 function drawFood(){
-    ctx.fillStyle = foodColor;
-    ctx.fillRect(foodX, foodY, unitSize, unitSize);
+    if(isSpecialFood){
+        ctx.fillStyle = "gold";
+        ctx.fillRect(specialFoodX, specialFoodY, unitSize, unitSize);
+    }
+    else{
+        ctx.fillStyle = foodColor;
+        ctx.fillRect(foodX, foodY, unitSize, unitSize);
+    }
 };
 
 // Function that sets the head of the snake and checks if the snake eats any food, if so then update the score by 1
@@ -107,8 +126,14 @@ function moveSnake(){
                   y: snake[0].y + yVelocity};
 
     snake.unshift(head);
-    if(snake[0].x == foodX && snake[0].y == foodY){
+
+    if(!isSpecialFood && snake[0].x == foodX && snake[0].y == foodY){
         score++;
+        scoreText.textContent = score;
+        createFood();
+    }
+    else if(isSpecialFood && snake[0].x == specialFoodX && snake[0].y == specialFoodY){
+        score += 2; // Special food = 2 points
         scoreText.textContent = score;
         createFood();
     }
