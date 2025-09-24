@@ -21,6 +21,7 @@ let specialFoodY;
 let isSpecialFood = false;
 let score = 0;
 let timeout;
+let paused = false;
 // Default game speed
 let gameSpeed = 75;
 // Creating and setting the default snake size
@@ -40,6 +41,11 @@ window.addEventListener("keydown", function(event){
     if((event.key === "r" || event.key === "R") && startBtn.style.display == "none"){
         resetGame();
     }
+
+    // If 'P' key is pressed, then pause the game
+    if((event.key === "p" || event.key === "P") && startBtn.style.display == "none"){
+        togglePause();
+    }
 });
 resetBtn.addEventListener("click", resetGame);
 startBtn.addEventListener("click", startGame);
@@ -47,11 +53,14 @@ difficultySelect.addEventListener("change", function() {
     gameSpeed = Number(this.value);
 });
 
-// Title for game before start
+// Title for game before start + controls
 ctx.font = "50px sans-serif";
 ctx.fillStyle = "green";
 ctx.textAlign = "center";
 ctx.fillText("SNAKE GAME", gameWidth / 2, gameHeight / 2);
+ctx.font = "17px sans-serif";
+ctx.fillStyle = "black";
+ctx.fillText("Press 'Start Game' to Play & You Can Pause by Pressing 'P'", gameWidth / 2, gameHeight / 2 + 40);
 
 // Start the game when player clicks on the "Start Game" button
 function startGame(){
@@ -216,12 +225,15 @@ function checkGameOver(){
     }
 };
 
-// Displays GAME OVER screen to the player
+// Displays GAME OVER screen to the player + controls to reset
 function displayGameOver(){
     ctx.font = "50px sans-serif";
     ctx.fillStyle = "darkred";
     ctx.textAlign = "center";
     ctx.fillText("GAME OVER!", gameWidth / 2, gameHeight / 2);
+    ctx.font = "17px sans-serif";
+    ctx.fillStyle = "black";
+    ctx.fillText("Press 'R' or click the 'Reset' button to retry", gameWidth / 2, gameHeight / 2 + 40);
     running = false;
     difficultySelect.style.display = "block";
 };
@@ -242,3 +254,26 @@ function resetGame(){
     difficultySelect.style.display = "none";
     gameStart();
 };
+
+// Function that pauses the game
+function togglePause(){
+    if (!running) return;
+
+    paused = !paused;
+
+    if(paused){
+        clearTimeout(timeout);
+        displayPause();
+    }
+    else{
+        nextTick();
+    }
+}
+
+// Styling the pause screen
+function displayPause(){
+    ctx.font = "50px sans-serif";
+    ctx.fillStyle = "blue";
+    ctx.textAlign = "center";
+    ctx.fillText("PAUSED", gameWidth / 2, gameHeight / 2);
+}
