@@ -11,6 +11,7 @@ const snakeBorder = "black";
 const foodColor = "red";
 const unitSize = 25;
 const difficultySelect = document.querySelector("#difficulty");
+const victoryScore = 10;
 let running = false;
 let xVelocity = unitSize;
 let yVelocity = 0;
@@ -94,7 +95,12 @@ function nextTick(){
         }, gameSpeed)
     }
     else{
-        displayGameOver();
+        if(score >= victoryScore){
+            displayVictory();
+        }
+        else{
+            displayGameOver();
+        }
     }
 };
 
@@ -155,6 +161,13 @@ function moveSnake(){
     }
     else{
         snake.pop();
+    }
+
+    // Checks if score is enough to win the game
+    if(score >= victoryScore){
+        running = false;
+        displayVictory();
+        return;
     }
 };
 
@@ -276,4 +289,17 @@ function displayPause(){
     ctx.fillStyle = "blue";
     ctx.textAlign = "center";
     ctx.fillText("PAUSED", gameWidth / 2, gameHeight / 2);
+}
+
+// Creating the victory screen
+function displayVictory(){
+    ctx.font = "50px sans-serif";
+    ctx.fillStyle = "green";
+    ctx.textAlign = "center";
+    ctx.fillText("YOU WIN!!!", gameWidth / 2, gameHeight / 2);
+    ctx.font = "17px sans-serif";
+    ctx.fillStyle = "black";
+    ctx.textAlign = "center";
+    ctx.fillText("You Reached 100 Points!", gameWidth / 2, gameHeight / 2 + 40);
+    running = false;
 }
