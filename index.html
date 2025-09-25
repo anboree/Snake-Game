@@ -24,7 +24,7 @@
             <!-- The players score -->
             <div id="scoreText">0</div>
 
-            <!-- The default HTML game container, score and reset button and difficulty select -->
+            <!-- The default HTML game container, score and reset button, difficulty select and obstacle option -->
             <div id="gameContainer">
                 <canvas id="gameBoard" width="500" height="500"></canvas>
 
@@ -38,8 +38,15 @@
 
                     <button id="startBtn">Start Game</button>
                     <button id="resetBtn" style="display: none;">Reset</button>
-                    
+
                 </div>
+
+                <!-- Seperate div for obstacle option -->
+                <div class="obstacle-div">
+                    <label for="obstacleLabel" id="obstacleLabel">Obstacles?</label>
+                    <input type="checkbox" id="obstacleToggle">
+                </div>
+
             </div>
 
         </div>
