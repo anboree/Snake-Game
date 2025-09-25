@@ -11,7 +11,10 @@ const snakeBorder = "black";
 const foodColor = "red";
 const unitSize = 25;
 const difficultySelect = document.querySelector("#difficulty");
-const victoryScore = 10;
+const victoryScore = 100;
+const obstacleToggle = document.querySelector("#obstacleToggle");
+const obstacleCount = 8;
+const obstacleColor = "dimgray";
 let running = false;
 let xVelocity = unitSize;
 let yVelocity = 0;
@@ -23,6 +26,8 @@ let isSpecialFood = false;
 let score = 0;
 let timeout;
 let paused = false;
+// Array for obstacles
+let obstacles = [];
 // Default game speed
 let gameSpeed = 75;
 // Creating and setting the default snake size
