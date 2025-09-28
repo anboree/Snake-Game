@@ -12,8 +12,9 @@ const foodColor = "red";
 const unitSize = 25;
 const difficultySelect = document.querySelector("#difficulty");
 const victoryScore = 100;
+const obstacleLabel = document.querySelector("#obstacleLabel");
 const obstacleToggle = document.querySelector("#obstacleToggle");
-const obstacleCount = 8;
+const obstacleCount = 6;
 const obstacleColor = "dimgray";
 let running = false;
 let xVelocity = unitSize;
@@ -72,6 +73,8 @@ ctx.fillText("Press 'Start Game' to Play & You Can Pause by Pressing 'P'", gameW
 function startGame(){
     startBtn.style.display = "none";
     difficultySelect.style.display = "none";
+    obstacleLabel.style.display = "none";
+    obstacleToggle.style.display = "none";
     gameSpeed = Number(difficultySelect.value);
 
     gameStart();
@@ -82,6 +85,7 @@ function gameStart(){
     running = true;
     scoreText.textContent = score;
     createFood();
+    if(obstacleToggle.checked) createObstacles();
     drawFood();
     nextTick();
     resetBtn.style.display = "block";
@@ -93,6 +97,7 @@ function nextTick(){
         timeout = setTimeout(()=>{
             clearBoard();
             drawFood();
+            if(obstacleToggle.checked) drawObstacles();
             moveSnake();
             drawSnake();
             checkGameOver();
@@ -241,6 +246,14 @@ function checkGameOver(){
             running = false;
         }
     }
+
+    if(obstacleToggle.checked){
+        for (let ob of obstacles){
+            if(snake[0].x === ob.x && snake[0].y === ob.y){
+                running = false;
+            }
+        }
+    }
 };
 
 // Displays GAME OVER screen to the player + controls to reset
@@ -254,6 +267,8 @@ function displayGameOver(){
     ctx.fillText("Press 'R' or click the 'Reset' button to retry", gameWidth / 2, gameHeight / 2 + 40);
     running = false;
     difficultySelect.style.display = "block";
+    obstacleLabel.style.display = "block";
+    obstacleToggle.style.display = "block";
 };
 
 // Resets the canvas and snake to default
@@ -270,6 +285,9 @@ function resetGame(){
     ];
     clearTimeout(timeout);
     difficultySelect.style.display = "none";
+    obstacleLabel.style.display = "none";
+    obstacleToggle.style.display = "none";
+    if(obstacleToggle.checked) createObstacles();
     gameStart();
 };
 
@@ -307,4 +325,30 @@ function displayVictory(){
     ctx.textAlign = "center";
     ctx.fillText("You Reached 100 Points!", gameWidth / 2, gameHeight / 2 + 40);
     running = false;
+}
+
+function createObstacles(){
+    obstacles = [];
+
+    for (let i = 0; i < obstacleCount; i++){
+        let x, y;
+        do{
+            x = Math.floor(Math.random() * (gameWidth / unitSize)) * unitSize;
+            y = Math.floor(Math.random() * (gameHeight / unitSize)) * unitSize;
+        }
+        while(
+            // Prevents obstacles from spawning on snake or food
+            snake.some(part => part.x === x && part.y === y) ||
+            (x === foodX && y === foodY)
+        );
+
+        obstacles.push({x, y});
+    }
+}
+
+function drawObstacles(){
+    ctx.fillStyle = obstacleColor;
+    obstacles.forEach(ob => {
+        ctx.fillRect(ob.x, ob.y, unitSize, unitSize);
+    });
 }
