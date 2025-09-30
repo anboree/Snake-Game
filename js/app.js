@@ -11,7 +11,7 @@ const snakeBorder = "black";
 const foodColor = "red";
 const unitSize = 25;
 const difficultySelect = document.querySelector("#difficulty");
-const victoryScore = 100;
+const victoryScore = 50;
 const obstacleLabel = document.querySelector("#obstacleLabel");
 const obstacleToggle = document.querySelector("#obstacleToggle");
 const obstacleCount = 6;
@@ -138,6 +138,19 @@ function createFood(){
         foodX = randomFood(0, gameWidth - unitSize);
         foodY = randomFood(0, gameHeight - unitSize);
     }
+
+    // Condition for isFoodBlocked function
+    let attempts = 0;
+    do{
+        foodX = Math.floor(Math.random() * (gameWidth / unitSize)) * unitSize;
+        foodY = Math.floor(Math.random() * (gameHeight / unitSize)) * unitSize;
+        attempts++;
+    }
+    while(
+        (obstacles.some(ob => ob.x === foodX && ob.y === foodY) ||
+        isFoodBlocked(foodX, foodY)) &&
+        attempts < 100
+    );
 };
 
 // Function that draws the food for player to see
@@ -323,26 +336,28 @@ function displayVictory(){
     ctx.font = "17px sans-serif";
     ctx.fillStyle = "black";
     ctx.textAlign = "center";
-    ctx.fillText("You Reached 100 Points!", gameWidth / 2, gameHeight / 2 + 40);
+    ctx.fillText("You Reached 50 Points!", gameWidth / 2, gameHeight / 2 + 40);
     running = false;
 }
 
+// Logic used for creating obstacles
 function createObstacles(){
     obstacles = [];
 
-    for (let i = 0; i < obstacleCount; i++){
-        let x, y;
+    for(let i = 0; i < obstacleCount; i++){
+        let x, y, attempts = 0;
         do{
             x = Math.floor(Math.random() * (gameWidth / unitSize)) * unitSize;
             y = Math.floor(Math.random() * (gameHeight / unitSize)) * unitSize;
+            attempts++;
         }
         while(
-            // Prevents obstacles from spawning on snake or food
-            snake.some(part => part.x === x && part.y === y) ||
-            (x === foodX && y === foodY)
+            (snake.some(part => part.x === x && part.y === y) ||
+            (x === foodX && y === foodY) ||
+            y === 0) && attempts < 100
         );
 
-        obstacles.push({x, y});
+        if(attempts < 100) obstacles.push({x, y});
     }
 }
 
@@ -351,4 +366,29 @@ function drawObstacles(){
     obstacles.forEach(ob => {
         ctx.fillRect(ob.x, ob.y, unitSize, unitSize);
     });
+}
+
+// Function to check if food is trapped in a corner
+function isFoodBlocked(x, y){
+    let freeNeighbors = 0;
+
+    const directions = [
+        {dx: unitSize, dy: 0}, 
+        {dx: -unitSize, dy: 0},
+        {dx: 0, dy: unitSize}, 
+        {dx: 0, dy: -unitSize}
+    ];
+    
+    for(let d of directions){
+        const nx = x + d.dx;
+        const ny = y + d.dy;
+        
+        // Check if within bounds and not an obstacle
+        if(nx >= 0 && nx < gameWidth && ny >= 0 && ny < gameHeight &&
+           !obstacles.some(ob => ob.x === nx && ob.y === ny)){
+            freeNeighbors++;
+        }
+    }   
+
+    return freeNeighbors < 2; // "trapped" if less than 2 exits
 }
